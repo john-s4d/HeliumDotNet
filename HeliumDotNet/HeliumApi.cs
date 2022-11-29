@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using Newtonsoft.Json;
-using System.Linq;
-using System.Collections;
-using System.Threading.Tasks;
 
 namespace Helium
 {
@@ -14,8 +11,8 @@ namespace Helium
         private const string HOST = "api.helium.io";
         private const string VERSION = "1";
         private const string USERAGENT = "Helium API Wrapper for .NET";
-        private const int LIMIT = 1000;
-        private const int BACKOFF_TIME = 500;
+        private const int LIMIT_DEFAULT = 1000;
+        private const int BACKOFF_TIME_MS = 500;
 
         private HttpClient _httpClient = new HttpClient();
         private bool _disposedValue;
@@ -32,7 +29,7 @@ namespace Helium
             return GetHeliumResponse<T>(GetRequestUri(route)).Data;
         }
 
-        private List<T> GetList<T>(string route, int limit = LIMIT)
+        private List<T> GetList<T>(string route, int limit = LIMIT_DEFAULT)
         {
             var initialRequest = GetRequestUri(route);
             HeliumResponse<List<T>> response = GetHeliumResponse<List<T>>(initialRequest);
@@ -50,7 +47,7 @@ namespace Helium
 
         private HeliumResponse<T> GetHeliumResponse<T>(Uri requestUri)
         {
-            int delay = BACKOFF_TIME;
+            int delay = BACKOFF_TIME_MS;
 
             while (true)
             {
@@ -88,7 +85,7 @@ namespace Helium
 
         // https://docs.helium.com/api/blockchain/hotspots        
 
-        public List<Hotspot> ListHotspots(string filterModes = null, int limit = LIMIT)
+        public List<Hotspot> ListHotspots(string filterModes = null, int limit = LIMIT_DEFAULT)
         {
             // TODO: filterModes could be Enum
             return GetList<Hotspot>($"hotspots?filter_modes={UrlEncode(filterModes)}", limit);
@@ -99,32 +96,32 @@ namespace Helium
             return GetSingle<Hotspot>($"hotspots/{UrlEncode(address)}");
         }
 
-        public List<Hotspot> HotspotsForName(string name, int limit = LIMIT)
+        public List<Hotspot> HotspotsForName(string name, int limit = LIMIT_DEFAULT)
         {
             return GetList<Hotspot>($"hotspots/name/{UrlEncode(name)}", limit);
         }
 
-        public List<Hotspot> HotspotNameSearch(string term, int limit = LIMIT)
+        public List<Hotspot> HotspotNameSearch(string term, int limit = LIMIT_DEFAULT)
         {
             return string.IsNullOrEmpty(term) ? new List<Hotspot>() : GetList<Hotspot>($"hotspots/name?search={UrlEncode(term)}", limit);
         }
 
-        public List<Hotspot> HotspotLocationDistanceSearch(float latitude, float longitude, int distance, int limit = LIMIT)
+        public List<Hotspot> HotspotLocationDistanceSearch(float latitude, float longitude, int distance, int limit = LIMIT_DEFAULT)
         {
             return GetList<Hotspot>($"hotspots/location/distance?lat={UrlEncode(latitude)}&lon={UrlEncode(longitude)}&distance={UrlEncode(distance)}", limit);
         }
 
-        public List<Hotspot> HotspotLocationBoxSearch(float swLatitude, float swLongitude, float neLatitude, float neLongitude, int limit = LIMIT)
+        public List<Hotspot> HotspotLocationBoxSearch(float swLatitude, float swLongitude, float neLatitude, float neLongitude, int limit = LIMIT_DEFAULT)
         {
             return GetList<Hotspot>($"hotspots/location/box?swlat={UrlEncode(swLatitude)}&swlon={UrlEncode(swLongitude)}&nelat={UrlEncode(neLatitude)}&nelon={UrlEncode(neLongitude)}", limit);
         }
 
-        public List<Hotspot> HotspotsForH3Index(string h3Index, int limit = LIMIT)
+        public List<Hotspot> HotspotsForH3Index(string h3Index, int limit = LIMIT_DEFAULT)
         {
             return GetList<Hotspot>($"hotspots/hex/{UrlEncode(h3Index)}", limit);
         }
 
-        public List<Transaction> HotspotActivity(string address, string filterTypes = null, string minTime = null, string maxTime = null, int limit = LIMIT)
+        public List<Transaction> HotspotActivity(string address, string filterTypes = null, string minTime = null, string maxTime = null, int limit = LIMIT_DEFAULT)
         {
             return GetList<Transaction>($"hotspots/{UrlEncode(address)}/activity?filter_types={UrlEncode(filterTypes)}&min_time={UrlEncode(minTime)}&max_time={UrlEncode(maxTime)}&limit={UrlEncode(limit)}", limit);
         }
@@ -134,12 +131,12 @@ namespace Helium
             return GetSingle<Dictionary<string, int>>($"hotspots/{UrlEncode(address)}/activity/count?filter_types={UrlEncode(filterTypes)}");
         }
 
-        public List<Election> HotspotElections(string address, string minTime = null, string maxTime = null, int limit = LIMIT)
+        public List<Election> HotspotElections(string address, string minTime = null, string maxTime = null, int limit = LIMIT_DEFAULT)
         {
             return GetList<Election>($"hotspots/{address}/elections?min_time={minTime}&max_time={maxTime}&limit={limit}", limit);
         }
 
-        public List<Hotspot> CurrentlyElectedHotspots(int limit = LIMIT)
+        public List<Hotspot> CurrentlyElectedHotspots(int limit = LIMIT_DEFAULT)
         {
             // This appears to be depracated.
             return GetList<Hotspot>($"hotspots/elected", limit);
@@ -176,7 +173,7 @@ namespace Helium
 
         // https://docs.helium.com/api/blockchain/elections
 
-        public List<Election> ListElections(string minTime = null, string maxTime = null, int limit = LIMIT)
+        public List<Election> ListElections(string minTime = null, string maxTime = null, int limit = LIMIT_DEFAULT)
         {
             return GetList<Election>($"elections?min_time={minTime}&max_time={maxTime}&limit={limit}", limit);
         }

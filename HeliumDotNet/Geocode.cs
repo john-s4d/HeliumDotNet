@@ -4,7 +4,7 @@ namespace Helium
 {
     public class Geocode
     {
-        [JsonProperty("short_street")] public string ShortSteet { get; set; }
+        [JsonProperty("short_street")] public string ShortStreet { get; set; }
         [JsonProperty("short_state")] public string ShortState { get; set; }
         [JsonProperty("short_country")] public string ShortCountry { get; set; }
         [JsonProperty("short_city")] public string ShortCity { get; set; }
