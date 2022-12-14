@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Helium
+namespace HeliumDotNet
 {
     public class Transaction
     {

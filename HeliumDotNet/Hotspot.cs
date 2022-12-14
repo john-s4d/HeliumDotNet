@@ -1,10 +1,10 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Helium
+namespace HeliumDotNet
 {
     public class Hotspot
-{
+    {
         [JsonProperty("lng")] public float? Longitude { get; set; }
         [JsonProperty("lat")] public float? Latitude { get; set; }
         [JsonProperty("timestamp_added")] public DateTime? TimestampAdded { get; set; }

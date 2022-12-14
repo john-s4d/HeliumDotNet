@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Helium
+namespace HeliumDotNet
 {
     public class Status
     {

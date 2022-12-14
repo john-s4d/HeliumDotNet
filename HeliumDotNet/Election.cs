@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Helium
+namespace HeliumDotNet
 {
     public class Election
     {

@@ -4,22 +4,26 @@ using System.Net;
 using System.Net.Http;
 using Newtonsoft.Json;
 
-namespace Helium
+namespace HeliumDotNet
 {
     public class HeliumApi : IDisposable
     {
         private const string HOST = "api.helium.io";
         private const string VERSION = "1";
-        private const string USERAGENT = "Helium API Wrapper for .NET";
+        private const string DEFAULT_USERAGENT = "HeliumDotNet";
         private const int LIMIT_DEFAULT = 1000;
         private const int BACKOFF_TIME_MS = 500;
 
         private HttpClient _httpClient = new HttpClient();
         private bool _disposedValue;
 
-        public HeliumApi()
+        public HeliumApi() 
+            : this(DEFAULT_USERAGENT)
+        { }
+
+        public HeliumApi(string userAgent)
         {
-            _httpClient.DefaultRequestHeaders.Add("User-Agent", USERAGENT);
+            _httpClient.DefaultRequestHeaders.Add("User-Agent", userAgent);
         }
 
         #region REST Requests

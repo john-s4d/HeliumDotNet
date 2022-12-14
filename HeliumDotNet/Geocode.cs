@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Helium
+namespace HeliumDotNet
 {
     public class Geocode
     {

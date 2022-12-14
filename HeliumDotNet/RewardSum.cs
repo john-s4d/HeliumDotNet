@@ -1,15 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Helium
+namespace HeliumDotNet
 {
     public class RewardSum
     {
-        [JsonProperty("max_time")] public DateTime? MaxTime { get; set; }
-        [JsonProperty("min_time")] public DateTime? MinTime { get; set; }
-        [JsonProperty("bucket")] public string? Bucket { get; set; }
-        [JsonProperty("data")] public List<string> Data { get; set; }
-
+        [JsonProperty("total")] public decimal Total { get; set; }
+        [JsonProperty("timestamp")] public DateTime Timestamp { get; set; }
+        [JsonProperty("sum")] public decimal Sum { get; set; }
+        [JsonProperty("stddev")] public decimal Stddev { get; set; }
+        [JsonProperty("min")] public decimal Min { get; set; }
+        [JsonProperty("median")] public decimal Median { get; set; }
+        [JsonProperty("max")] public decimal Max { get; set; }
+        [JsonProperty("avg")] public decimal Avg { get; set; }
     }
 }
